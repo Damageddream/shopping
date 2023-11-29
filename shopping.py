@@ -59,7 +59,17 @@ def load_data(filename):
     labels should be the corresponding list of labels, where each label
     is 1 if Revenue is true, and 0 otherwise.
     """
-    raise NotImplementedError
+    with open("shopping.csv") as f:
+        reader = csv.reader(f)
+        next(reader)
+        evidences = []
+        labels = []
+        for row in reader:
+            labels.append(row[-1])
+            values_to_modify = row[:-1]
+            print(labels, values_to_modify)
+            break
+
 
 
 def train_model(evidence, labels):
