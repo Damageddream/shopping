@@ -60,6 +60,13 @@ def load_data(filename):
     is 1 if Revenue is true, and 0 otherwise.
     """
     with open("shopping.csv") as f:
+
+        def month_to_number(month):
+            month_dict = {'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'June': 5, 'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11}
+            return month_dict[month]
+            
+
+
         reader = csv.reader(f)
         next(reader)
         evidences = []
