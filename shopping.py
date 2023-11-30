@@ -64,18 +64,38 @@ def load_data(filename):
         def month_to_number(month):
             month_dict = {'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'June': 5, 'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11}
             return month_dict[month]
-            
-
-
+        def visitedTypte_to_number(type):
+            if type == 'Returning_Visitor':
+                return 1
+            return 0
+        def bool_to_number(value):
+            if value:
+                return 1
+            return 0
         reader = csv.reader(f)
         next(reader)
         evidences = []
         labels = []
         for row in reader:
             labels.append(row[-1])
+            labels[0] = bool_to_number(labels[0])
             values_to_modify = row[:-1]
-            print(labels, values_to_modify)
-            break
+            values_to_modify[1] = float(values_to_modify[1])
+            values_to_modify[3] = float(values_to_modify[3])
+            values_to_modify[5] = float(values_to_modify[5])
+            values_to_modify[6] = float(values_to_modify[6])
+            values_to_modify[7] = float(values_to_modify[7])
+            values_to_modify[8] = float(values_to_modify[8])
+            values_to_modify[9] = float(values_to_modify[9])
+            values_to_modify[10] = month_to_number(values_to_modify[10])
+            values_to_modify[15] = visitedTypte_to_number(values_to_modify[15])
+            values_to_modify[16] = bool_to_number(values_to_modify[16])
+            for index in range(len(values_to_modify)):
+                if type(values_to_modify[index]) == str:
+                    values_to_modify[index] = int(values_to_modify[index])
+                    
+            evidences.append(values_to_modify)
+        return((evidences, labels))
 
 
 
@@ -84,8 +104,8 @@ def train_model(evidence, labels):
     Given a list of evidence lists and a list of labels, return a
     fitted k-nearest neighbor model (k=1) trained on the data.
     """
-    raise NotImplementedError
-
+    model = KNeighborsClassifier(n_neighbors=1)
+    model.fit(evidence, labels)
 
 def evaluate(labels, predictions):
     """
