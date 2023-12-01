@@ -73,7 +73,6 @@ def load_data(filename):
                 return 1
             return 0
         reader = csv.reader(f)
-        print(f)
         next(reader)
         evidences = []
         labels = []
@@ -124,9 +123,22 @@ def evaluate(labels, predictions):
     representing the "true negative rate": the proportion of
     actual negative labels that were accurately identified.
     """
-    sensitivity = 0
-    specificity  = 0
-
+    correct_sensitivity = 0
+    total_sensivity = 0
+    correct_specificity  = 0
+    total_specifity = 0
+    for actual, predicted in zip(labels, predictions):
+        if actual == "TRUE":
+            total_sensivity += 1
+        if actual == 'FALSE':
+            total_specifity += 1
+        if actual == "TRUE" and predicted == "TRUE":
+            correct_sensitivity += 1
+        if actual == "FALSE" and predicted == "FALSE":
+            correct_specificity += 1
+    sensivity = correct_sensitivity / total_sensivity
+    specificity = correct_specificity / total_specifity
+    return(sensivity, specificity)
 
 if __name__ == "__main__":
     main()
